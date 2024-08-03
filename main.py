@@ -22,11 +22,8 @@ while len(guessed_states) < 50:
     usr_answer = screen.textinput(title=f"{counting}/50 States Correct", prompt="What's another state's name?").title()
     
     if usr_answer == "Exit":
-        missed_states = []
-        for missing_state in all_states:
-            if missing_state not in guessed_states:
-                missed_states.append(missing_state)
-                
+        missed_states = [missing_state for missing_state in  all_states if missing_state not in guessed_states]
+        print(missed_states)
         new_data = pandas.DataFrame(missed_states)
         new_data.to_csv("states_to_learn.csv")    
         break
@@ -38,7 +35,7 @@ while len(guessed_states) < 50:
         t.penup()
         t.hideturtle()
         position = data[data["state"] == usr_answer]
-        t.goto(int(position.x), int(position.y))
+        t.goto(int(position.x.iloc[0]), int(position.y.iloc[0]))
         t.write(position.state.item())
 
 # states_to_learn.csv
